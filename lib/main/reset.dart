@@ -1,27 +1,27 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:app_servis/model/auth.dart';
 import 'package:app_servis/model/toast.dart';
+import 'package:app_servis/model/note.dart';
+import 'package:app_servis/navigasi/nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import './navigasi/nav.dart';
 
 // ignore: must_be_immutable
-class LoginPage extends StatefulWidget {
-  LoginPage({Key? key});
+class ResetPage extends StatefulWidget {
+  const ResetPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ResetPage> createState() => _ResetPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ResetPageState extends State<ResetPage> {
   final FirebaseAuthService _auth = FirebaseAuthService();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-
-  bool isSigningIn = false;
+  final TextEditingController _emailController = TextEditingController();
   bool isReset = false;
 
+  @override
   void dispose() {
-    _passwordController.dispose();
     _emailController.dispose();
     super.dispose();
   }
@@ -30,13 +30,13 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('Reset Password'),
         titleTextStyle: const TextStyle(
           color: Colors.white,
           fontSize: 22,
           fontStyle: FontStyle.italic,
         ),
-        backgroundColor: Colors.deepPurpleAccent.shade100,
+        backgroundColor: darkbrown,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -50,32 +50,25 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(height: 20),
-            TextFormField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-              ),
-            ),
-            const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
-                _signIn();
+                _resetPassword();
+                navigateToLoginPage(context);
               },
               child: Container(
                 width: double.infinity,
                 height: 45,
                 decoration: BoxDecoration(
-                  color: Colors.deepPurple.shade200,
+                  color: darkbrown,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Center(
-                  child: isSigningIn
+                  child: isReset
                       ? const CircularProgressIndicator(
                           color: Colors.white,
                         )
                       : const Text(
-                          "Login",
+                          "Send Reset on E-mail",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -84,43 +77,34 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            SizedBox(height: 30.0),
-            ElevatedButton(
-              onPressed: () {
-                navigateToResetPage(context);
-              },
-              child: const Text('Forgot Password ?'),
-            ),
           ],
         ),
       ),
     );
   }
 
-  void _signIn() async {
+  void _resetPassword() async {
     setState(() {
-      isSigningIn = true;
+      isReset = true;
     });
 
     String email = _emailController.text;
-    String password = _passwordController.text;
 
-    User? user = await _auth.signInWithEmailAndPassword(email, password);
+    User? user = await _auth.resetPassword(email);
 
     setState(() {
-      isSigningIn = false;
+      isReset = false;
     });
 
-    if (user != null) {
+    if (user == true) {
       showToast(
-        message: "Login Successfully",
+        message: "Check your E-mail",
         backgroundColor: Colors.deepPurple,
         textColor: [Colors.deepPurpleAccent],
       );
-      navigateToDepanPage(context);
     } else {
       showToast(
-          message: "Some error happend",
+          message: "Check your E-mail",
           backgroundColor: Colors.deepPurple,
           textColor: [Colors.deepPurpleAccent]);
     }

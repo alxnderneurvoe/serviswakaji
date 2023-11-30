@@ -1,12 +1,18 @@
-import 'package:app_servis/ui/booking.dart';
-import 'package:app_servis/ui/datauser.dart';
-import 'package:app_servis/ui/profil.dart';
-import 'package:app_servis/ui/reset.dart';
+// import 'package:app_servis/booking/databooking.dart';
+import 'package:app_servis/home/depan.dart';
+import 'package:app_servis/kendaraan/editkendaraan.dart';
+import 'package:app_servis/kendaraan/tambahkendaraan.dart';
+import 'package:app_servis/kendaraan/pilihkendaraan.dart';
+import 'package:app_servis/main/login.dart';
+import 'package:app_servis/main/loginphone.dart';
+import 'package:app_servis/main/pilihan.dart';
+import 'package:app_servis/main/regis.dart';
+import 'package:app_servis/booking/booking.dart';
+import 'package:app_servis/main/reset.dart';
+import 'package:app_servis/user/profil.dart';
+import 'package:app_servis/user/updateuser.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:app_servis/depan.dart';
-import 'package:app_servis/login.dart';
-import 'package:app_servis/regis.dart';
-import 'package:app_servis/pilihan.dart';
 
 // void navigateToDepanPage(BuildContext context) {
 //   Navigator.push(
@@ -18,7 +24,14 @@ import 'package:app_servis/pilihan.dart';
 void navigateToDepanPage(BuildContext context) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => const HomePage(serviceData: [],)),
+    MaterialPageRoute(builder: (context) => HomePage()),
+  );
+}
+
+void navigateToUpdateUserPage(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const UpdateUserPage()),
   );
 }
 
@@ -32,14 +45,21 @@ void navigateToPilihanPage(BuildContext context) {
 void navigateToLoginPage(BuildContext context) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => LoginPage()),
+    MaterialPageRoute(builder: (context) => const LoginPage()),
+  );
+}
+
+void navigateToLoginPhonePage(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const LoginPhonePage()),
   );
 }
 
 void navigateToRegisPage(BuildContext context) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => RegisPage()),
+    MaterialPageRoute(builder: (context) => const RegisPage()),
   );
 }
 
@@ -50,23 +70,47 @@ void navigateToProfilPage(BuildContext context) {
   );
 }
 
-void navigateToBookingPage(BuildContext context) {
+void navigateToIsiKendaraanPage(BuildContext context) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => const BookingPage()),
+    MaterialPageRoute(builder: (context) => const KendaraanPage()),
   );
 }
 
-void navigateToIsiDataPage(BuildContext context) {
+void navigateToPilihKendaraanPage(BuildContext context) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => DataPelangganPage()),
+    MaterialPageRoute(builder: (context) => const VehicleSelectionPage()),
+  );
+}
+
+void navigateToBookingPage(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const BookingServicePage()),
   );
 }
 
 void navigateToResetPage(BuildContext context) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => ResetPage()),
+    MaterialPageRoute(builder: (context) => const ResetPage()),
+  );
+}
+
+// void navigateToBookingDetailPage(BuildContext context) {
+//   Navigator.push(
+//     context,
+//     MaterialPageRoute(builder: (context) => BookingDetailPage()),
+//   );
+// }
+
+void navigateToEditKendaraanPage(
+    BuildContext context, DocumentSnapshot vehicle) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => EditKendaraanPage(vehicle: vehicle),
+    ),
   );
 }

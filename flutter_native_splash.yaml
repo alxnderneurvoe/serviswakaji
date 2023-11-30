@@ -1,0 +1,7 @@
+flutter_native_splash:
+  color: "#ffffff" # warna latar belakang
+  image: assets/images/logo.png # gambar splash screen
+  fill: true # mengisi layar penuh
+  android: true
+  ios: true
+  on_init: true

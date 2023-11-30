@@ -1,4 +1,4 @@
-import 'package:app_servis/pilihan.dart';
+import 'package:app_servis/main/pilihan.dart';
 import 'package:app_servis/ui/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -20,18 +20,20 @@ Future main() async {
     await Firebase.initializeApp();
   }
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Aplikasi Kelompok 3',
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => SplashScreen(
-              child: const PilihanPage(),
+        '/': (context) => const PilihanPage(
+              // child: PilihanPage(),
             ),
       },
       theme: ThemeData(
