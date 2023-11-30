@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
       title: 'Aplikasi Kelompok 3',
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => const PilihanPage(
-              // child: PilihanPage(),
+        '/': (context) => const SplashScreen(
+              child: PilihanPage(),
             ),
       },
       theme: ThemeData(
