@@ -120,15 +120,8 @@ class PilihanPage extends StatelessWidget {
                                   Radius.circular(100),
                                 ),
                               ),
-                              onPressed: () async {
-                                // UserCredential? userCredential =
-                                //     await signInWithGoogle();
-
-                                // if (userCredential != null) {
-                                //   User user = userCredential.user!;
-                                //   print(
-                                //       'Signed in with Google: ${user.displayName}');
-                                // }
+                              onPressed: (){
+                                
                               },
                               backgroundColor: lightlite,
                               child: Image.asset(

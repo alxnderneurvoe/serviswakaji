@@ -70,7 +70,7 @@ class _LoginPhonePageState extends State<LoginPhonePage> {
                     TextFormField(
                       controller: _phoneNumber,
                       decoration: const InputDecoration(
-                        labelText: 'Email',
+                        labelText: 'Nomor Handphone',
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -118,6 +118,34 @@ class _LoginPhonePageState extends State<LoginPhonePage> {
         ),
       ),
     );
+  }
+
+  Future<void> register() async {
+    try {
+      UserCredential userCredential =
+          await _auth.InLoginPhoneNumber(
+        handphone: emailController.text,
+      );
+
+      String uid = userCredential.user!.uid;
+
+      await _firestore.collection('User').doc(uid).set({
+        '1. nama': namaController.text,
+        '2. nik': nikController.text,
+        '4. alamat': alamatController.text,
+        '3. email': emailController.text,
+        '5. nohp': nohpController.text,
+        'password': passwordController.text
+      });
+      print('Registration successful');
+      navigateToLoginPage(context);
+    } catch (e) {
+      print('Registration failed: $e');
+      showToast(
+          message: "Some error happend",
+          backgroundColor: Colors.deepPurple,
+          textColor: [Colors.deepPurpleAccent]);
+    }
   }
 
   void _signInPhone() async {
