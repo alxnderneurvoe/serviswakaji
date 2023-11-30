@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       title: 'Aplikasi Kelompok 3',
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => const SplashScreen(
+        '/': (context) => SplashScreen(
               child: PilihanPage(),
             ),
       },

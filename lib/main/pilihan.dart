@@ -3,13 +3,13 @@
 import 'package:app_servis/model/note.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:app_servis/model/auth.dart';
 import '../model/komponen.dart';
 import '../navigasi/nav.dart';
 
 class PilihanPage extends StatelessWidget {
-  const PilihanPage({super.key});
+  PilihanPage({super.key});
   static String id = 'home_screen';
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +42,7 @@ class PilihanPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 70),
+                    //LOGIN
                     Hero(
                       tag: 'login_btn',
                       child: CustomButton(
@@ -52,6 +53,7 @@ class PilihanPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
+                    //SIGNUP
                     Hero(
                       tag: 'signup_btn',
                       child: CustomButton(
@@ -66,6 +68,7 @@ class PilihanPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        //PHONE
                         CircleAvatar(
                           radius: 30,
                           backgroundColor: lightlite,
@@ -73,7 +76,7 @@ class PilihanPage extends StatelessWidget {
                             icon: const Icon(
                               Icons.phone,
                               color: darkbrown,
-                              size: 30,
+                              size: 40,
                             ),
                             onPressed: () {
                               navigateToLoginPhonePage(context);
@@ -81,6 +84,7 @@ class PilihanPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 20),
+                        //GOOGLE
                         SizedBox(
                           width: 60,
                           height: 60,
@@ -92,27 +96,19 @@ class PilihanPage extends StatelessWidget {
                                   Radius.circular(100),
                                 ),
                               ),
-                              onPressed: () async {
-                                UserCredential? userCredential =
-                                    await signInWithGoogle();
-
-                                if (userCredential != null) {
-                                  User user = userCredential.user!;
-                                  print(
-                                      'Signed in with Google: ${user.displayName}');
-                                }
-                              },
+                              onPressed: _handleGoogleSignIn,
                               backgroundColor: lightlite,
                               child: Image.asset(
                                 'assets/images/google.png',
-                                height: 50,
-                                width: 52,
+                                height: 60,
+                                width: 62,
                                 color: darkbrown,
                               ),
                             ),
                           ),
                         ),
                         const SizedBox(width: 20),
+                        //FACEBOOK
                         SizedBox(
                           width: 60,
                           height: 60,
@@ -125,20 +121,21 @@ class PilihanPage extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () async {
-                                UserCredential? userCredential =
-                                    await signInWithGoogle();
+                                // UserCredential? userCredential =
+                                //     await signInWithGoogle();
 
-                                if (userCredential != null) {
-                                  User user = userCredential.user!;
-                                  print(
-                                      'Signed in with Google: ${user.displayName}');
-                                }
+                                // if (userCredential != null) {
+                                //   User user = userCredential.user!;
+                                //   print(
+                                //       'Signed in with Google: ${user.displayName}');
+                                // }
                               },
                               backgroundColor: lightlite,
                               child: Image.asset(
                                 'assets/images/facebook.png',
                                 height: 60,
-                                width: 61,
+                                width: 60,
+                                color: darkbrown,
                               ),
                             ),
                           ),
@@ -153,5 +150,13 @@ class PilihanPage extends StatelessWidget {
         ),
       ),
     );
+  }
+  void _handleGoogleSignIn() {
+    try {
+      GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
+      _auth.signInWithProvider(googleAuthProvider);
+    } catch (error) {
+      print(error);
+    }
   }
 }

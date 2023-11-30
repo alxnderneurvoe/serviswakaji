@@ -6,7 +6,6 @@ import 'package:app_servis/navigasi/nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 import '../model/toast.dart';
 
@@ -92,28 +91,6 @@ class FirebaseAuthService {
     );
     return null;
   }
-}
-
-Future<UserCredential?> signInWithGoogle() async {
-  try {
-    GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
-
-    if (googleSignInAccount != null) {
-      GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-
-      AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
-
-      return await FirebaseAuth.instance.signInWithCredential(credential);
-    }
-  } catch (e) {
-    print('Error signing in with Google: $e');
-  }
-
-  return null;
 }
 
 class FirestoreService {

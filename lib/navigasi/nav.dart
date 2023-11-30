@@ -38,7 +38,7 @@ void navigateToUpdateUserPage(BuildContext context) {
 void navigateToPilihanPage(BuildContext context) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => const PilihanPage()),
+    MaterialPageRoute(builder: (context) => PilihanPage()),
   );
 }
 
