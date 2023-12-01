@@ -72,6 +72,7 @@ class _RegisPageState extends State<RegisPage> {
             TextField(
               controller: alamatController,
               decoration: const InputDecoration(labelText: 'Alamat'),
+              minLines: 1,
               maxLines: 2,
             ),
             const SizedBox(height: 16),
