@@ -1,10 +1,7 @@
-import 'package:app_servis/model/auth.dart';
 import 'package:app_servis/model/note.dart';
-import 'package:app_servis/model/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../navigasi/nav.dart';
 
 // ignore: must_be_immutable
 class LoginPhonePage extends StatefulWidget {
@@ -15,17 +12,11 @@ class LoginPhonePage extends StatefulWidget {
 }
 
 class _LoginPhonePageState extends State<LoginPhonePage> {
-  final FirebaseAuthService _auth = FirebaseAuthService();
-  final TextEditingController _phoneNumber = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _passController = TextEditingController();
 
   bool isSigningIn = false;
   bool isReset = false;
-
-  @override
-  void dispose() {
-    _phoneNumber.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,15 +59,22 @@ class _LoginPhonePageState extends State<LoginPhonePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     TextFormField(
-                      controller: _phoneNumber,
+                      controller: _phoneController,
                       decoration: const InputDecoration(
                         labelText: 'Nomor Handphone',
                       ),
                     ),
                     const SizedBox(height: 20),
+                    TextFormField(
+                      controller: _passController,
+                      decoration: const InputDecoration(
+                        labelText: 'Password',
+                      ),
+                    ),
+                    const SizedBox(height: 20),
                     GestureDetector(
                       onTap: () {
-                        _signInPhone();
+                        // registerUser();
                       },
                       child: Container(
                         width: double.infinity,
@@ -100,16 +98,6 @@ class _LoginPhonePageState extends State<LoginPhonePage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 30.0),
-                    // ElevatedButton(
-                    //   onPressed: () {
-                    //     navigateToResetPage(context);
-                    //   },
-                    //   child: const Text(
-                    //     'Forgot Password ?',
-                    //     style: TextStyle(color: darkbrown),
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -120,60 +108,77 @@ class _LoginPhonePageState extends State<LoginPhonePage> {
     );
   }
 
-  // Future<void> register() async {
-  //   try {
-  //     UserCredential userCredential =
-  //         await _auth.InLoginPhoneNumber(
-  //       handphone: emailController.text,
-  //     );
+  // Future<bool> loginUser(String phone, BuildContext context) async {
+  //   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  //     String uid = userCredential.user!.uid;
+  //   _auth.verifyPhoneNumber(
+  //       phoneNumber: phone,
+  //       timeout: Duration(seconds: 60),
+  //       verificationCompleted: (AuthCredential credential) async {
+  //         Navigator.of(context).pop();
 
-  //     await _firestore.collection('User').doc(uid).set({
-  //       '1. nama': namaController.text,
-  //       '2. nik': nikController.text,
-  //       '4. alamat': alamatController.text,
-  //       '3. email': emailController.text,
-  //       '5. nohp': nohpController.text,
-  //       'password': passwordController.text
-  //     });
-  //     print('Registration successful');
-  //     navigateToLoginPage(context);
-  //   } catch (e) {
-  //     print('Registration failed: $e');
-  //     showToast(
-  //         message: "Some error happend",
-  //         backgroundColor: Colors.deepPurple,
-  //         textColor: [Colors.deepPurpleAccent]);
-  //   }
+  //         AuthResult result = await _auth.signInWithCredential(credential);
+
+  //         FirebaseUser user = result.user;
+
+  //         if (user != null) {
+  //           navigateToDepanPage(context);
+  //         } else {
+  //           print("Error");
+  //         }
+
+  //         //This callback would gets called when verification is done auto maticlly
+  //       },
+  //       verificationFailed: (AuthException exception) {
+  //         print(exception);
+  //       },
+  //       codeSent: (String verificationId, [int forceResendingToken]) {
+  //         showDialog(
+  //             context: context,
+  //             barrierDismissible: false,
+  //             builder: (context) {
+  //               return AlertDialog(
+  //                 title: Text("Give the code?"),
+  //                 content: Column(
+  //                   mainAxisSize: MainAxisSize.min,
+  //                   children: <Widget>[
+  //                     TextField(
+  //                       controller: _codeController,
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 actions: <Widget>[
+  //                   FlatButton(
+  //                     child: Text("Confirm"),
+  //                     textColor: Colors.white,
+  //                     color: Colors.blue,
+  //                     onPressed: () async {
+  //                       final code = _codeController.text.trim();
+  //                       AuthCredential credential =
+  //                           PhoneAuthProvider.getCredential(
+  //                               verificationId: verificationId, smsCode: code);
+
+  //                       AuthResult result =
+  //                           await _auth.signInWithCredential(credential);
+
+  //                       FirebaseUser user = result.user;
+
+  //                       if (user != null) {
+  //                         Navigator.push(
+  //                             context,
+  //                             MaterialPageRoute(
+  //                                 builder: (context) => HomeScreen(
+  //                                       user: user,
+  //                                     )));
+  //                       } else {
+  //                         print("Error");
+  //                       }
+  //                     },
+  //                   )
+  //                 ],
+  //               );
+  //             });
+  //       },
+  //       codeAutoRetrievalTimeout: null);
   // }
-
-  void _signInPhone() async {
-    setState(() {
-      isSigningIn = true;
-    });
-
-    String phoneNumber = _phoneNumber.text;
-
-    User? user = await _auth.InLoginPhoneNumber(phoneNumber);
-
-    setState(() {
-      isSigningIn = false;
-    });
-
-    if (user != null) {
-      showToast(
-        message: "Login Successfully",
-        backgroundColor: Colors.deepPurple,
-        textColor: [Colors.deepPurpleAccent],
-      );
-      // ignore: use_build_context_synchronously
-      navigateToDepanPage(context);
-    } else {
-      showToast(
-          message: "Some error happend",
-          backgroundColor: Colors.deepPurple,
-          textColor: [Colors.deepPurpleAccent]);
-    }
-  }
 }

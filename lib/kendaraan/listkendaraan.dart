@@ -967,7 +967,7 @@ class ListKendaraan {
       '1290 Super Duke R',
       'Duke 690',
     ],
-    'Adventure': [
+    'Super Adventure': [
       '1290 Super Adventure S',
       '1090 Adventure R',
       '1090 Adventure',

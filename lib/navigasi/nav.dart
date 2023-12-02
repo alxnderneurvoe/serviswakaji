@@ -5,7 +5,7 @@ import 'package:app_servis/kendaraan/pilihkendaraan.dart';
 import 'package:app_servis/login/loginmail.dart';
 import 'package:app_servis/login/loginphone.dart';
 import 'package:app_servis/pilihan.dart';
-import 'package:app_servis/register/regis.dart';
+import 'package:app_servis/register/regismail.dart';
 import 'package:app_servis/booking/booking.dart';
 import 'package:app_servis/login/reset.dart';
 import 'package:app_servis/user/profil.dart';
