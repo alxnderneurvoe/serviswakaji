@@ -1,16 +1,23 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, must_be_immutable
+
 
 import 'package:app_servis/model/note.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../model/komponen.dart';
 import '../navigasi/nav.dart';
+
+GoogleSignIn _googleSignIn = GoogleSignIn(scopes: <String>[
+  'email',
+  'https://www.googleapis.com/auth/contacts.readonly'
+]);
 
 class PilihanPage extends StatelessWidget {
   PilihanPage({super.key});
   static String id = 'home_screen';
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,7 +151,18 @@ class PilihanPage extends StatelessWidget {
       ),
     );
   }
-  void _handleGoogleSignIn() {
+
+  Future<void> handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print("Sign in error :$error");
+    }
+  }
+
+  Future<void> handleSignOut() => _googleSignIn.disconnect();
+
+  Future<void> _handleGoogleSignIn() async {
     try {
       GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
       _auth.signInWithProvider(googleAuthProvider);

@@ -62,31 +62,11 @@ class FirebaseAuthService {
   }
 
   Future<User?> InLoginPhoneNumber(String phoneNumber) async {
-    await _auth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      timeout: const Duration(seconds: 60),
-      verificationCompleted: (AuthCredential credential) async {
-        UserCredential result = await _auth.signInWithCredential(credential);
-        User? user = result.user;
-        print('User signed in: ${user?.uid}');
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        print('Error: ${e.message}');
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        String smsCode = '...';
-        AuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: verificationId,
-          smsCode: smsCode,
-        );
-
-        _auth.signInWithCredential(credential).then((UserCredential result) {
-          User? user = result.user;
-          print('User signed in: ${user?.uid}');
-        }).catchError((e) {
-          print('Error: ${e.message}');
-        });
-      },
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: '+6281370612244',
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {},
+      codeSent: (String verificationId, int? resendToken) {},
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
     return null;
