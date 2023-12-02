@@ -1,25 +1,17 @@
-// import 'package:app_servis/booking/databooking.dart';
 import 'package:app_servis/home/depan.dart';
 import 'package:app_servis/kendaraan/editkendaraan.dart';
 import 'package:app_servis/kendaraan/tambahkendaraan.dart';
 import 'package:app_servis/kendaraan/pilihkendaraan.dart';
-import 'package:app_servis/main/login.dart';
-import 'package:app_servis/main/loginphone.dart';
-import 'package:app_servis/main/pilihan.dart';
-import 'package:app_servis/main/regis.dart';
+import 'package:app_servis/login/loginmail.dart';
+import 'package:app_servis/login/loginphone.dart';
+import 'package:app_servis/pilihan.dart';
+import 'package:app_servis/register/regis.dart';
 import 'package:app_servis/booking/booking.dart';
-import 'package:app_servis/main/reset.dart';
+import 'package:app_servis/login/reset.dart';
 import 'package:app_servis/user/profil.dart';
 import 'package:app_servis/user/updateuser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-// void navigateToDepanPage(BuildContext context) {
-//   Navigator.push(
-//     context,
-//     MaterialPageRoute(builder: (context) => const HomePage(isBookingServiceAvailable: false)),
-//   );
-// }
 
 void navigateToDepanPage(BuildContext context) {
   Navigator.push(

@@ -1,4 +1,4 @@
-import 'package:app_servis/main/pilihan.dart';
+import 'package:app_servis/pilihan.dart';
 import 'package:app_servis/ui/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
