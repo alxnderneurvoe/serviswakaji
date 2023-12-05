@@ -1,9 +1,8 @@
 import 'package:app_servis/model/note.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// ignore: must_be_immutable
 class LoginPhonePage extends StatefulWidget {
   const LoginPhonePage({super.key});
 
@@ -107,6 +106,7 @@ class _LoginPhonePageState extends State<LoginPhonePage> {
       ),
     );
   }
+}
 
   // Future<bool> loginUser(String phone, BuildContext context) async {
   //   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -181,4 +181,4 @@ class _LoginPhonePageState extends State<LoginPhonePage> {
   //       },
   //       codeAutoRetrievalTimeout: null);
   // }
-}
+  // }

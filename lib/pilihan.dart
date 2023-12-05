@@ -54,6 +54,7 @@ class PilihanPage extends StatelessWidget {
                       tag: 'login_btn',
                       child: CustomButton(
                         buttonText: 'Login',
+                        isOutlined: false,
                         onPressed: () {
                           navigateToLoginPage(context);
                         },

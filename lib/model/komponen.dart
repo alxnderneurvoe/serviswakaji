@@ -59,9 +59,9 @@ class ScreenTitle extends StatelessWidget {
       title,
       style: GoogleFonts.poppins(
           textStyle: const TextStyle(
-            color: Colors.white,
-            fontSize: 50.0, 
-            fontWeight: FontWeight.bold)),
+              color: Colors.white,
+              fontSize: 50.0,
+              fontWeight: FontWeight.bold)),
     );
   }
 }
@@ -191,3 +191,5 @@ Alert showAlert({
     ],
   );
 }
+
+

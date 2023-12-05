@@ -71,6 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: <Widget>[
                     TextFormField(
                       controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                         labelText: 'Email',
                       ),

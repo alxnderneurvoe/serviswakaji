@@ -1,10 +1,11 @@
-// ignore_for_file: empty_catches, library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, empty_catches, use_build_context_synchronously
 
 import 'package:app_servis/model/note.dart';
 import 'package:app_servis/navigasi/nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
@@ -98,6 +99,10 @@ class _BookingServicePageState extends State<BookingServicePage> {
                                 labelStyle: TextStyle(fontSize: 12),
                               ),
                               maxLength: 2,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.singleLineFormatter,
+                              ],
+                              onChanged: _handleKodeDaerah,
                             ),
                           ),
                         ),
@@ -109,6 +114,10 @@ class _BookingServicePageState extends State<BookingServicePage> {
                             child: TextFormField(
                               controller: nomorPolisi,
                               textAlign: TextAlign.center,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               decoration: const InputDecoration(
                                 labelText: 'Nomor Polisi',
                                 counterText: '',
@@ -143,6 +152,10 @@ class _BookingServicePageState extends State<BookingServicePage> {
                                 ),
                               ),
                               maxLength: 3,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.singleLineFormatter,
+                              ],
+                              onChanged: _handleSubDaerah,
                             ),
                           ),
                         ),
@@ -161,6 +174,10 @@ class _BookingServicePageState extends State<BookingServicePage> {
                   icon: Icon(Icons.people_alt),
                   border: OutlineInputBorder(),
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.singleLineFormatter,
+                ],
+                onChanged: _handleNamaText,
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
                     return 'Nama Pelanggan tidak boleh kosong';
@@ -178,6 +195,10 @@ class _BookingServicePageState extends State<BookingServicePage> {
                   icon: Icon(Icons.place),
                   border: OutlineInputBorder(),
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.singleLineFormatter,
+                ],
+                onChanged: _handleAlamatText,
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
                     return 'Alamat Pelanggan tidak boleh kosong';
@@ -191,10 +212,10 @@ class _BookingServicePageState extends State<BookingServicePage> {
                 children: <Widget>[
                   Expanded(
                     child: InkWell(
-                      onTap: () => _selectDate(context),
+                      onTap: () => _selectDateAndTime(context),
                       child: InputDecorator(
                         decoration: const InputDecoration(
-                            labelText: 'Tanggal',
+                            labelText: 'Waktu Kedatangan',
                             border: OutlineInputBorder(),
                             icon: Icon(Icons.date_range_rounded)),
                         child: Row(
@@ -202,34 +223,9 @@ class _BookingServicePageState extends State<BookingServicePage> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Text(
-                              DateFormat('dd - MM - yyyy').format(selectedDate),
+                              DateFormat('dd - MM - yyyy || HH:mm')
+                                  .format(selectedDate),
                             ),
-                            const Icon(Icons.arrow_drop_down),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-              // WAKTU
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: InkWell(
-                      onTap: () => _selectTime(context),
-                      child: InputDecorator(
-                        decoration: const InputDecoration(
-                          labelText: 'Waktu',
-                          border: OutlineInputBorder(),
-                          icon: Icon(Icons.alarm),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(selectedTime.format(context)),
                             const Icon(Icons.arrow_drop_down),
                           ],
                         ),
@@ -366,8 +362,13 @@ class _BookingServicePageState extends State<BookingServicePage> {
               // FISIK CAT
               DropdownButtonFormField(
                 value: _selectedFisikCat,
-                items: ["100% - 76%", "75% - 51%", "50 - 26%", "25% - 1%", "Tidak Tahu"]
-                    .map<DropdownMenuItem<String>>((String value) {
+                items: [
+                  "100% - 76%",
+                  "75% - 51%",
+                  "50 - 26%",
+                  "25% - 1%",
+                  "Tidak Tahu"
+                ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -449,6 +450,10 @@ class _BookingServicePageState extends State<BookingServicePage> {
                   }
                   return null;
                 },
+                inputFormatters: [
+                  FilteringTextInputFormatter.singleLineFormatter,
+                ],
+                onChanged: _handleKeluhanText,
               ),
               const SizedBox(height: 35),
               // BUTTON BOOKING
@@ -504,6 +509,7 @@ class _BookingServicePageState extends State<BookingServicePage> {
           'a_Plat_kendaraan': platNumber,
           'b_Nama_pelanggan': _namaController.text,
           'c_Pelanggan': _alamatController.text,
+          'd_Tanggal_order': DateTime.now(),
           'd_Tanggal_booking': selectedDate,
           'e_Mekanik': _selectedMekanik,
           'f_Kondisi_karbu': _selectedKondisiKarbu,
@@ -519,91 +525,133 @@ class _BookingServicePageState extends State<BookingServicePage> {
     } catch (e) {}
   }
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDateAndTime(BuildContext context) async {
     final DateTime now = DateTime.now();
     final DateTime today = DateTime(now.year, now.month, now.day);
 
-    final DateTime? picked = await showDatePicker(
+    final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: today,
       lastDate: DateTime(2025),
     );
 
-    if (picked != null && picked != selectedDate) {
-      if (picked.isAfter(today) || picked.isAtSameMomentAs(today)) {
-        setState(() {
-          selectedDate = picked;
-        });
-      } else {
-        // ignore: use_build_context_synchronously
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Peringatan'),
-              content:
-                  const Text('Pilih tanggal hari ini atau setelah hari ini'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            );
-          },
+    if (pickedDate != null && pickedDate != selectedDate) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: selectedTime,
+        builder: (BuildContext context, Widget? child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child!,
+          );
+        },
+        initialEntryMode: TimePickerEntryMode.input,
+      );
+      if (pickedTime != null && pickedTime != selectedTime) {
+        TimeOfDay endOfDay = const TimeOfDay(hour: 23, minute: 0);
+        if (pickedTime.hour >= 8 && pickedTime.hour < endOfDay.hour) {
+          setState(() {
+            selectedTime = pickedTime;
+          });
+        } else if (pickedTime.hour == endOfDay.hour &&
+            pickedTime.minute == endOfDay.minute) {
+          setState(() {
+            selectedTime = pickedTime;
+          });
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Peringatan'),
+                content: const Text('Waktu harus dalam rentang 08:00 - 23:00'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      navigateToBookingPage(context);
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      }
+
+      if (pickedTime != null) {
+        DateTime combinedDateTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
         );
+
+        setState(() {
+          selectedDate = combinedDateTime;
+        });
       }
     }
   }
 
-  Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: selectedTime,
-      builder: (BuildContext context, Widget? child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: child!,
-        );
-      },
-      initialEntryMode: TimePickerEntryMode.input,
+  void _handleSubDaerah(String value) {
+    subDaerah.value = subDaerah.value.copyWith(
+      text: value.toUpperCase(),
+      selection: TextSelection.collapsed(offset: value.length),
     );
+  }
 
-    if (picked != null && picked != selectedTime) {
-      TimeOfDay endOfDay = const TimeOfDay(hour: 23, minute: 0);
+  void _handleKodeDaerah(String value) {
+    kodeDaerah.value = kodeDaerah.value.copyWith(
+      text: value.toUpperCase(),
+      selection: TextSelection.collapsed(offset: value.length),
+    );
+  }
 
-      if (picked.hour >= 8 && picked.hour < endOfDay.hour) {
-        setState(() {
-          selectedTime = picked;
-        });
-      } else if (picked.hour == endOfDay.hour &&
-          picked.minute == endOfDay.minute) {
-        setState(() {
-          selectedTime = picked;
-        });
-      } else {
-        // ignore: use_build_context_synchronously
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Peringatan'),
-              content: const Text('Waktu harus dalam rentang 08:00 - 23:00'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
+  void _handleNamaText(String value) {
+    String sentenceCaseValue = value.toLowerCase();
+    List<String> words = sentenceCaseValue.split(' ');
+    for (int i = 0; i < words.length; i++) {
+      if (words[i].isNotEmpty) {
+        words[i] = words[i][0].toUpperCase() + words[i].substring(1);
       }
     }
+    sentenceCaseValue = words.join(' ');
+    _namaController.value = _namaController.value.copyWith(
+      text: sentenceCaseValue,
+      selection: TextSelection.collapsed(offset: sentenceCaseValue.length),
+    );
+  }
+
+  void _handleAlamatText(String value) {
+    String sentenceCaseValue = value.toLowerCase();
+    List<String> words = sentenceCaseValue.split(' ');
+    for (int i = 0; i < words.length; i++) {
+      if (words[i].isNotEmpty) {
+        words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+      }
+    }
+    sentenceCaseValue = words.join(' ');
+    _alamatController.value = _alamatController.value.copyWith(
+      text: sentenceCaseValue,
+      selection: TextSelection.collapsed(offset: sentenceCaseValue.length),
+    );
+  }
+
+  void _handleKeluhanText(String value) {
+    String sentenceCaseValue = value.toLowerCase();
+    List<String> words = sentenceCaseValue.split(' ');
+    for (int i = 0; i < words.length; i++) {
+      if (words[i].isNotEmpty) {
+        words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+      }
+    }
+    sentenceCaseValue = words.join(' ');
+    _keluhanController.value = _keluhanController.value.copyWith(
+      text: sentenceCaseValue,
+      selection: TextSelection.collapsed(offset: sentenceCaseValue.length),
+    );
   }
 }

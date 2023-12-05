@@ -61,4 +61,6 @@ flutter {
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.4.1')
+    implementation "com.airbnb.android:lottie:3.5.0"
+    implementation "com.android.support.constraint:constraint-layout:2.0.4"
 }

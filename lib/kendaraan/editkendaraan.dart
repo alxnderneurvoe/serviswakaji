@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors_in_immutables, library_private_types_in_public_api, avoid_print
+// ignore_for_file: library_private_types_in_public_api
 
 import 'package:app_servis/model/note.dart';
 import 'package:app_servis/navigasi/nav.dart';
@@ -10,8 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class EditKendaraanPage extends StatefulWidget {
   final DocumentSnapshot vehicle;
-
-  EditKendaraanPage({required this.vehicle});
+  const EditKendaraanPage({super.key, required this.vehicle});
 
   @override
   _EditKendaraanPageState createState() => _EditKendaraanPageState();
@@ -245,15 +244,11 @@ class _EditKendaraanPageState extends State<EditKendaraanPage> {
       'Tipe': selectedType,
       'Plat': platNumber,
     }).then((value) {
-      print('Data saved to Firestore');
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Kendaraan berhasil disimpan!'),
         duration: Duration(seconds: 4),
       ));
       navigateToPilihKendaraanPage(context);
-    }).catchError((error) {
-      print("Failed to update vehicle: $error");
-    });
+    }).catchError((error) {});
   }
 }
