@@ -33,6 +33,9 @@ class _MyDrawerState extends State<MyDrawer> {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
+            decoration: const BoxDecoration(
+              color: brown,
+            ),
             accountName: Text('${_userData['1. nama']}'),
             accountEmail: Text('${_user.email}'),
             currentAccountPicture: CircleAvatar(

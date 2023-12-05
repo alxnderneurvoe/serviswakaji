@@ -1,18 +1,21 @@
-// ignore_for_file: avoid_print, use_build_context_synchronously
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, empty_catches
 
-import 'package:app_servis/model/note.dart';
-import 'package:app_servis/model/toast.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
+
+import '../model/note.dart';
 import '../navigasi/nav.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RegisPage extends StatefulWidget {
   const RegisPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _RegisPageState createState() => _RegisPageState();
 }
 
@@ -26,6 +29,10 @@ class _RegisPageState extends State<RegisPage> {
   TextEditingController nikController = TextEditingController();
   TextEditingController alamatController = TextEditingController();
   TextEditingController nohpController = TextEditingController();
+
+  String imageUrl = '';
+  XFile? file;
+  Uint8List? imageBytes;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +55,48 @@ class _RegisPageState extends State<RegisPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            if (imageBytes != null) Image.memory(imageBytes!),
+            IconButton(
+              onPressed: () async {
+                ImagePicker imagePicker = ImagePicker();
+                XFile? pickedFile =
+                    await imagePicker.pickImage(source: ImageSource.camera);
+
+                if (pickedFile == null) return;
+
+                setState(() {
+                  file = pickedFile;
+                });
+
+                if (kDebugMode) {
+                  print('${file?.path}');
+                }
+
+                String uniqueFileName =
+                    DateTime.now().millisecondsSinceEpoch.toString();
+
+                Reference referenceRoot = FirebaseStorage.instance.ref();
+                Reference referenceDirImages = referenceRoot.child('images');
+                Reference referenceImageToUpload =
+                    referenceDirImages.child(uniqueFileName);
+
+                try {
+                  await referenceImageToUpload.putFile(File(file!.path));
+
+                  imageUrl = await referenceImageToUpload.getDownloadURL();
+
+                  List<int> bytes = await File(file!.path).readAsBytes();
+                  setState(() {
+                    imageBytes = Uint8List.fromList(bytes);
+                  });
+                } catch (error) {
+                  if (kDebugMode) {
+                    print(error.toString());
+                  }
+                }
+              },
+              icon: const Icon(Icons.camera_alt),
+            ),
             TextField(
               controller: emailController,
               decoration: const InputDecoration(labelText: 'Email'),
@@ -80,7 +129,10 @@ class _RegisPageState extends State<RegisPage> {
               onPressed: () {
                 register();
               },
-              child: const Text('Register'),
+              child: const Text(
+                'Register',
+                style: TextStyle(color: darkbrown),
+              ),
             ),
           ],
         ),
@@ -104,16 +156,10 @@ class _RegisPageState extends State<RegisPage> {
         '4. alamat': alamatController.text,
         '3. email': emailController.text,
         '5. nohp': nohpController.text,
-        'password': passwordController.text
+        'password': passwordController.text,
+        'image': imageUrl,
       });
-      print('Registration successful');
       navigateToLoginPage(context);
-    } catch (e) {
-      print('Registration failed: $e');
-      showToast(
-          message: "Some error happend",
-          backgroundColor: Colors.deepPurple,
-          textColor: [Colors.deepPurpleAccent]);
-    }
+    } catch (e) {}
   }
 }

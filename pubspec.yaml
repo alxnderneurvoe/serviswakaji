@@ -21,9 +21,9 @@ dependencies:
   cupertino_icons: ^1.0.6
   drop_down_search_field: ^1.0.0
   firebase_auth: ^4.12.1
-  firebase_core: ^2.21.0
+  firebase_core: ^2.24.0
   firebase_database: ^10.3.3
-  firebase_storage: ^11.4.1
+  firebase_storage: ^11.5.3
   flutter_datetime_picker: ^1.5.1
   flutter_lints: ^3.0.1
   flutter_native_splash: ^2.3.5
@@ -40,6 +40,7 @@ dependencies:
   web: ^0.3.0
   flare_flutter: ^3.0.2
   lottie: ^2.7.0
+  firebase_analytics: ^10.7.2
 
 dev_dependencies:
   flutter_test:
