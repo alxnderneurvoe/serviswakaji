@@ -44,12 +44,7 @@ class _ProfilPageState extends State<ProfilPage> {
             const SizedBox(height: 20.0),
             CircleAvatar(
               radius: 60,
-              child: Image.asset(
-                'assets/images/logo.png',
-                width: 100,
-                height: 100,
-                color: darkbrown,
-              ),
+              child: Image.network('${_userData['image']}'),
             ),
             const SizedBox(height: 20.0),
             const Text(
@@ -76,11 +71,13 @@ class _ProfilPageState extends State<ProfilPage> {
             const SizedBox(height: 15.0),
             DataTable(
               dataRowMinHeight: 30.0,
+              // dataRowMaxHeight: 70.0,
               columnSpacing: 10.0,
               columns: const [
                 DataColumn(
-                    label: Text('aaaaaaaaaaaaaa',
-                        style: TextStyle(color: Color.fromARGB(0, 0, 0, 255)))),
+                  label: Text('aaaaaaaaaaaaaa',
+                      style: TextStyle(color: Color.fromARGB(0, 0, 0, 255))),
+                ),
                 DataColumn(label: Text('')),
                 DataColumn(label: Text('')),
               ],
@@ -106,13 +103,15 @@ class _ProfilPageState extends State<ProfilPage> {
                   DataCell(Expanded(child: Text('${_userData['5. nohp']}'))),
                 ]),
                 DataRow(cells: [
-                  const DataCell(Expanded(child: Text('Alamat'))),
-                  const DataCell(Expanded(child: Text(':'))),
-                  DataCell(Expanded(
-                    child: Text('${_userData['4. alamat']}'),
+                  const DataCell(Text('Alamat')),
+                  const DataCell(Text(':')),
+                  DataCell(SizedBox(
+                    height: double.infinity,
+                    child: Text('${_userData['4. alamat']}',
+                        textAlign: TextAlign.justify),
                   )),
                 ]),
-                const DataRow(cells: [
+                const DataRow( cells: [
                   DataCell(Expanded(child: Text(''))),
                   DataCell(Expanded(child: Text(''))),
                   DataCell(Expanded(child: Text(''))),

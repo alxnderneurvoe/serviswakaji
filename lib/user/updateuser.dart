@@ -44,18 +44,44 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
             TextFormField(
               controller: _namaController,
               decoration: const InputDecoration(labelText: 'Nama Lengkap'),
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Harap mengisi nama';
+                }
+                return null;
+              },
             ),
             TextFormField(
               controller: _nikController,
               decoration: const InputDecoration(labelText: 'NIK'),
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Harap mengisi nama';
+                }
+                return null;
+              },
             ),
             TextFormField(
               controller: _alamatController,
               decoration: const InputDecoration(labelText: 'Alamat'),
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Harap mengisi nama';
+                }
+                return null;
+              },
+              maxLines: 3,
+              minLines: 1,
             ),
             TextFormField(
               controller: _nohpController,
               decoration: const InputDecoration(labelText: 'Nomor Telepon'),
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Harap mengisi nama';
+                }
+                return null;
+              },
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
@@ -80,9 +106,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
     try {
       _user = _auth.currentUser!;
 
-
-      setState(() {
-      });
+      setState(() {});
     } catch (e) {
       print('Failed to get user data: $e');
     }

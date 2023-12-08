@@ -3,6 +3,7 @@
 import 'package:app_servis/model/note.dart';
 import 'package:app_servis/navigasi/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,8 @@ class MyDrawer extends StatefulWidget {
 class _MyDrawerState extends State<MyDrawer> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  late String imageUrl;
 
   late User _user;
   late Map<String, dynamic> _userData;
@@ -24,6 +27,17 @@ class _MyDrawerState extends State<MyDrawer> {
   void initState() {
     super.initState();
     _getUserData();
+    imageUrl='';
+    getImageUrl();
+  }
+
+  Future<void>getImageUrl()async{
+    final ref = _storage.ref().child('gs://servis-6a153.appspot.com/user_images/D6Ae59AcidbpglM52PCLxeQouwy1.jpg');
+    final url = await ref.getDownloadURL();
+    setState(() {
+      imageUrl=url;
+    });
+
   }
 
   @override
@@ -40,11 +54,9 @@ class _MyDrawerState extends State<MyDrawer> {
             accountEmail: Text('${_user.email}'),
             currentAccountPicture: CircleAvatar(
               radius: 50,
-              child: Image.asset(
-                'assets/images/logo.png',
-                width: 60,
-                height: 60,
-                color: darkbrown,
+              child: Image(
+                image: NetworkImage(imageUrl),
+                fit: BoxFit.cover,
               ),
             ),
             arrowColor: light,
@@ -99,8 +111,7 @@ class _MyDrawerState extends State<MyDrawer> {
           await _firestore.collection('User').doc(_user.uid).get();
 
       setState(() {
-        _userData = userData.data() ??
-            {}; // Use null-aware operator to handle null case
+        _userData = userData.data() ?? {};
       });
     } catch (e) {
       print('Failed to get user data: $e');
