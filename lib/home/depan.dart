@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, must_be_immutable
 
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:app_servis/booking/authbooking.dart';
 import 'package:app_servis/model/note.dart';
 import 'package:app_servis/navigasi/nav.dart';
@@ -10,10 +11,22 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:app_servis/ui/button/sidebar.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   late User _user;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,50 +109,36 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return const Center(
+                  return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(height: 50),
-                        Text(
+                        const SizedBox(height: 50),
+                        const Text(
                           'Selamat Datang di Aplikasi Bengkel Servis',
                           style: TextStyle(
                             fontSize: 20.0,
                           ),
                         ),
-                        SizedBox(height: 20.0),
-                        Text(
+                        const SizedBox(height: 20.0),
+                        const Text(
                           'Layanan Terbaik untuk Kendaraan Anda',
                           style: TextStyle(
                             fontSize: 16.0,
                             color: Colors.grey,
                           ),
                         ),
-                        SizedBox(height: 80.0),
-                        Icon(
-                          Icons.build,
-                          size: 100.0,
-                          color: darkbrown,
-                        ),
                         SizedBox(
-                          height: 20.0,
+                          height: 500,
+                          child: AnimatedSplashScreen(
+                            splash: Lottie.asset('assets/splashscreen.json'),
+                            splashIconSize: 400,
+                            backgroundColor: Colors.transparent,
+                            duration: 1000000000,
+                            nextScreen: HomePage(),
+                          ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.car_repair,
-                              size: 150.0,
-                              color: darkbrown,
-                            ),
-                            Icon(
-                              Icons.tire_repair,
-                              size: 100.0,
-                              color: darkbrown,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 50),
+                        const SizedBox(height: 50),
                       ],
                     ),
                   );

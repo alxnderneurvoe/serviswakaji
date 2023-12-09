@@ -1,4 +1,8 @@
+import '../pilihan.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:lottie/lottie.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SplashScreen extends StatefulWidget {
   final Widget? child;
@@ -11,30 +15,23 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 4), () {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => widget.child!),
-          (route) => false);
+    Future.delayed(const Duration(seconds: 15), () {
+      Navigator.pop(context);
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-        Text(
-          "Welcome to\nAplikasi Bengkel Service Wak Aji",
-          style: TextStyle(
-            color: Colors.blue,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-      )
+    return AnimatedSplashScreen(
+      splash: Lottie.asset('assets/splashscreen.json'),
+      splashIconSize: 400,
+      backgroundColor: Colors.white,
+      duration: 10000,
+      animationDuration: Duration(seconds: 2),
+      nextScreen: PilihanPage(),
+      splashTransition: SplashTransition.fadeTransition,
+      pageTransitionType: PageTransitionType.fade,
     );
   }
 }
