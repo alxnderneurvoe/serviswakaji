@@ -1,3 +1,4 @@
+import 'package:app_servis/booking/howtobook.dart';
 import 'package:app_servis/home/depan.dart';
 import 'package:app_servis/kendaraan/editkendaraan.dart';
 import 'package:app_servis/kendaraan/tambahkendaraan.dart';
@@ -90,6 +91,12 @@ void navigateToResetPage(BuildContext context) {
   );
 }
 
+void navigateToHowToBook(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const HowToBook()),
+  );
+}
 // void navigateToBookingDetailPage(BuildContext context) {
 //   Navigator.push(
 //     context,

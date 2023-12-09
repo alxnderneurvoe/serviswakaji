@@ -6,6 +6,7 @@ import 'package:app_servis/navigasi/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class KendaraanPage extends StatefulWidget {
@@ -119,11 +120,13 @@ class _KendaraanPageState extends State<KendaraanPage> {
                               border: OutlineInputBorder(),
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
-                              labelStyle: TextStyle(
-                                fontSize: 12,
-                              ),
+                              labelStyle: TextStyle(fontSize: 12),
                             ),
                             maxLength: 2,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter,
+                            ],
+                            onChanged: _handleKodeDaerah,
                           ),
                         ),
                       ),
@@ -135,6 +138,10 @@ class _KendaraanPageState extends State<KendaraanPage> {
                           child: TextFormField(
                             controller: nomorPolisi,
                             textAlign: TextAlign.center,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
                             decoration: const InputDecoration(
                               labelText: 'Nomor Polisi',
                               counterText: '',
@@ -169,6 +176,10 @@ class _KendaraanPageState extends State<KendaraanPage> {
                               ),
                             ),
                             maxLength: 3,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter,
+                            ],
+                            onChanged: _handleSubDaerah,
                           ),
                         ),
                       ),
@@ -250,5 +261,19 @@ class _KendaraanPageState extends State<KendaraanPage> {
     } catch (e) {
       print('Failed to update user data: $e');
     }
+  }
+
+  void _handleSubDaerah(String value) {
+    subDaerah.value = subDaerah.value.copyWith(
+      text: value.toUpperCase(),
+      selection: TextSelection.collapsed(offset: value.length),
+    );
+  }
+
+  void _handleKodeDaerah(String value) {
+    kodeDaerah.value = kodeDaerah.value.copyWith(
+      text: value.toUpperCase(),
+      selection: TextSelection.collapsed(offset: value.length),
+    );
   }
 }

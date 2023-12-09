@@ -3,11 +3,12 @@
 import 'package:app_servis/booking/authbooking.dart';
 import 'package:app_servis/model/note.dart';
 import 'package:app_servis/navigasi/nav.dart';
+import 'package:app_servis/ui/button/howbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:app_servis/ui/sidebar.dart';
+import 'package:app_servis/ui/button/sidebar.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatelessWidget {
@@ -159,6 +160,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       drawer: const MyDrawer(),
+      floatingActionButton: const HowToBookButton(),
     );
   }
 }

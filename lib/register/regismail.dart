@@ -113,23 +113,30 @@ class _RegisPageState extends State<RegisPage> {
               TextField(
                 controller: emailController,
                 decoration: const InputDecoration(labelText: 'Email'),
+                onChanged: validateEmail,
               ),
               TextField(
                 controller: passwordController,
                 decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
+                onChanged: validatePassword,
               ),
               TextField(
                 controller: namaController,
                 decoration: const InputDecoration(labelText: 'Nama'),
+                onChanged: validateName,
               ),
               TextField(
                 controller: nikController,
                 decoration: const InputDecoration(labelText: 'NIK'),
+                onChanged: validateNIK,
               ),
               TextField(
                 controller: nohpController,
                 decoration: const InputDecoration(labelText: 'No Hp'),
+                onChanged: validateMobile,
+                maxLength: 13,
+                
               ),
               TextField(
                 controller: alamatController,
