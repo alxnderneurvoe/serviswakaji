@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:app_servis/ui/button/sidebar.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -159,7 +160,31 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       drawer: const MyDrawer(),
-      floatingActionButton: const HowToBookButton(),
+      floatingActionButton: SpeedDial(
+          animatedIcon: AnimatedIcons.menu_close,
+          animationDuration: const Duration(milliseconds: 500),
+          overlayColor: Colors.black,
+          overlayOpacity: 0.6,
+          backgroundColor: lightlite,
+          childMargin: const EdgeInsets.symmetric(vertical: 20),
+          children: [
+            SpeedDialChild(
+              child: AboutUsWeb(),
+              shape: const CircleBorder(eccentricity: 0),
+              label: 'About Us'
+            ),
+            SpeedDialChild(
+              child: const HowToBookButton(),
+              shape: const CircleBorder(eccentricity: 0),
+              label: 'How To Booking'
+            ),
+            SpeedDialChild(
+              child: const ChatAdmin(),
+              shape: const CircleBorder(eccentricity: 0),
+              label: 'Chat Admin'
+            ),
+          ],
+        )
     );
   }
 }
