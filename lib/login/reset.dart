@@ -1,9 +1,9 @@
 // ignore_for_file: unrelated_type_equality_checks
 
-import 'package:app_servis/model/auth.dart';
-import 'package:app_servis/model/toast.dart';
-import 'package:app_servis/model/note.dart';
-import 'package:app_servis/navigasi/nav.dart';
+import '../model/auth.dart';
+import '../model/toast.dart';
+import '../model/note.dart';
+import '../navigasi/nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

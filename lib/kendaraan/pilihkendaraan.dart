@@ -1,7 +1,7 @@
-import 'package:app_servis/kendaraan/authkendaraan.dart';
-import 'package:app_servis/model/note.dart';
-import 'package:app_servis/navigasi/nav.dart';
-import 'package:app_servis/ui/button/sidebar.dart';
+import '../kendaraan/authkendaraan.dart';
+import '../model/note.dart';
+import '../navigasi/nav.dart';
+import '../ui/button/sidebar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +74,7 @@ class _VehicleSelectionPageState extends State<VehicleSelectionPage> {
                             Text(vehicle['Plat']),
                           ],
                         ),
+                        onTap: () {navigateToVehicleDetailPage(context, vehicle);},
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -91,7 +92,6 @@ class _VehicleSelectionPageState extends State<VehicleSelectionPage> {
                             ),
                           ],
                         ),
-                        onTap: () {},
                       ),
                     );
                   },
@@ -110,7 +110,9 @@ class _VehicleSelectionPageState extends State<VehicleSelectionPage> {
           ),
         ],
       ),
-      drawer: const MyDrawer(),
+      drawer: const MyDrawer(
+        userId: '',
+      ),
     );
   }
 }

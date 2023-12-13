@@ -1,6 +1,5 @@
-import 'package:app_servis/model/auth.dart';
-import 'package:app_servis/model/note.dart';
-import 'package:app_servis/model/toast.dart';
+import '../model/auth.dart';
+import '../model/note.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -146,18 +145,21 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     if (user != null) {
-      showToast(
-        message: "Login Successfully",
-        backgroundColor: Colors.deepPurple,
-        textColor: [Colors.deepPurpleAccent],
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Login Successfully'),
+          duration: Duration(seconds: 4),
+        ),
       );
       // ignore: use_build_context_synchronously
       navigateToDepanPage(context);
     } else {
-      showToast(
-          message: "Some error happend",
-          backgroundColor: Colors.deepPurple,
-          textColor: [Colors.deepPurpleAccent]);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Some error'),
+          duration: Duration(seconds: 4),
+        ),
+      );
     }
   }
 }

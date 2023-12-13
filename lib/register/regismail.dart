@@ -136,7 +136,6 @@ class _RegisPageState extends State<RegisPage> {
                 decoration: const InputDecoration(labelText: 'No Hp'),
                 onChanged: validateMobile,
                 maxLength: 13,
-                
               ),
               TextField(
                 controller: alamatController,
@@ -197,7 +196,12 @@ class _RegisPageState extends State<RegisPage> {
           'image': imageUrl,
         });
       });
-
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Registration successfully'),
+          duration: Duration(seconds: 4),
+        ),
+      );
       navigateToLoginPage(context);
     } catch (e) {
       // Handle registration errors here

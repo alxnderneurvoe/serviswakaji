@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_final_fields, avoid_print
 
-import 'package:app_servis/model/note.dart';
-import 'package:app_servis/navigasi/nav.dart';
+import '../model/note.dart';
+import '../navigasi/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

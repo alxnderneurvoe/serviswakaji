@@ -1,18 +1,20 @@
-// ignore_for_file: use_key_in_widget_constructors, must_be_immutable
+// ignore_for_file: use_key_in_widget_constructors, must_be_immutable, avoid_print
 
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:app_servis/booking/authbooking.dart';
-import 'package:app_servis/model/note.dart';
-import 'package:app_servis/navigasi/nav.dart';
-import 'package:app_servis/ui/button/howbar.dart';
+import '../booking/authbooking.dart';
+// import '../booking/howtobook.dart';
+import '../model/note.dart';
+import '../navigasi/nav.dart';
+import '../ui/button/FAB/expandFAB.dart';
+import '../ui/button/howbar.dart';
+// import '../ui/button/howbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:app_servis/ui/button/sidebar.dart';
+import '../ui/button/sidebar.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -23,11 +25,6 @@ class _HomePageState extends State<HomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   late User _user;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -159,32 +156,17 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      drawer: const MyDrawer(),
-      floatingActionButton: SpeedDial(
-          animatedIcon: AnimatedIcons.menu_close,
-          animationDuration: const Duration(milliseconds: 500),
-          overlayColor: Colors.black,
-          overlayOpacity: 0.6,
-          backgroundColor: lightlite,
-          childMargin: const EdgeInsets.symmetric(vertical: 20),
-          children: [
-            SpeedDialChild(
-              child: AboutUsWeb(),
-              shape: const CircleBorder(eccentricity: 0),
-              label: 'About Us'
-            ),
-            SpeedDialChild(
-              child: const HowToBookButton(),
-              shape: const CircleBorder(eccentricity: 0),
-              label: 'How To Booking'
-            ),
-            SpeedDialChild(
-              child: const ChatAdmin(),
-              shape: const CircleBorder(eccentricity: 0),
-              label: 'Chat Admin'
-            ),
-          ],
-        )
+      drawer: const MyDrawer(
+        userId: '',
+      ),
+      floatingActionButton: ExpandableFab(
+        distance: 120,
+        children: [
+          AboutUsWeb(),
+          ChatAdmin(),
+          const HowToBookButton(),
+        ],
+      ),
     );
   }
 }

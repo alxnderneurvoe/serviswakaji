@@ -1,10 +1,11 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:app_servis/model/note.dart';
-import 'package:app_servis/navigasi/nav.dart';
+import '../model/note.dart';
+import '../navigasi/nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 
 class HowToBook extends StatefulWidget {
   const HowToBook({super.key});

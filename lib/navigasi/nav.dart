@@ -1,18 +1,29 @@
-import 'package:app_servis/booking/howtobook.dart';
-import 'package:app_servis/home/depan.dart';
-import 'package:app_servis/kendaraan/editkendaraan.dart';
-import 'package:app_servis/kendaraan/tambahkendaraan.dart';
-import 'package:app_servis/kendaraan/pilihkendaraan.dart';
-import 'package:app_servis/login/loginmail.dart';
-import 'package:app_servis/login/loginphone.dart';
-import 'package:app_servis/pilihan.dart';
-import 'package:app_servis/register/regismail.dart';
-import 'package:app_servis/booking/booking.dart';
-import 'package:app_servis/login/reset.dart';
-import 'package:app_servis/user/profil.dart';
-import 'package:app_servis/user/updateuser.dart';
+import '../booking/howtobook.dart';
+import '../home/depan.dart';
+import '../kendaraan/datakendaraan.dart';
+import '../kendaraan/editkendaraan.dart';
+import '../kendaraan/tambahkendaraan.dart';
+import '../kendaraan/pilihkendaraan.dart';
+import '../login/loginmail.dart';
+import '../login/loginphone.dart';
+import '../pilihan.dart';
+import '../register/regismail.dart';
+import '../booking/booking.dart';
+import '../login/reset.dart';
+import '../user/profil.dart';
+import '../user/updateuser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+void navigateToVehicleDetailPage(
+    BuildContext context, DocumentSnapshot vehicle) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => VehicleDetailPage(vehicle: vehicle),
+    ),
+  );
+}
 
 void navigateToDepanPage(BuildContext context) {
   Navigator.push(

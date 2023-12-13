@@ -2,7 +2,7 @@
 
 import 'dart:js';
 
-import 'package:app_servis/navigasi/nav.dart';
+import '../navigasi/nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -126,5 +126,23 @@ class FirestoreService {
     String documentId,
   ) async {
     await _firestore.collection('User').doc(documentId).delete();
+  }
+}
+
+class FirebaseService {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<String> getUserProfileImageURL(String userId) async {
+    try {
+      DocumentSnapshot userDoc =
+          await _firestore.collection('User').doc(userId).get();
+
+      String imageUrl = userDoc['image'];
+
+      return imageUrl;
+    } catch (e) {
+      print('Error getting user profile image URL: $e');
+      return ''; 
+    }
   }
 }

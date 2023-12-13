@@ -1,8 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api, unnecessary_string_interpolations, avoid_print
 
-import 'package:app_servis/model/note.dart';
-import 'package:app_servis/navigasi/nav.dart';
-import 'package:app_servis/ui/button/sidebar.dart';
+import '../model/note.dart';
+import '../navigasi/nav.dart';
+import '../ui/button/sidebar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -70,12 +70,11 @@ class _ProfilPageState extends State<ProfilPage> {
             ),
             const SizedBox(height: 15.0),
             DataTable(
-              dataRowMinHeight: 30.0,
-              // dataRowMaxHeight: 70.0,
+              dataRowMinHeight: 40.0,
               columnSpacing: 10.0,
               columns: const [
                 DataColumn(
-                  label: Text('aaaaaaaaaaaaaa',
+                  label: Text('..............',
                       style: TextStyle(color: Color.fromARGB(0, 0, 0, 255))),
                 ),
                 DataColumn(label: Text('')),
@@ -105,13 +104,10 @@ class _ProfilPageState extends State<ProfilPage> {
                 DataRow(cells: [
                   const DataCell(Text('Alamat')),
                   const DataCell(Text(':')),
-                  DataCell(SizedBox(
-                    height: double.infinity,
-                    child: Text('${_userData['4. alamat']}',
-                        textAlign: TextAlign.justify),
-                  )),
+                  DataCell(Text('${_userData['4. alamat']}',
+                      textAlign: TextAlign.justify)),
                 ]),
-                const DataRow( cells: [
+                const DataRow(cells: [
                   DataCell(Expanded(child: Text(''))),
                   DataCell(Expanded(child: Text(''))),
                   DataCell(Expanded(child: Text(''))),
@@ -131,7 +127,7 @@ class _ProfilPageState extends State<ProfilPage> {
           ],
         ),
       ),
-      drawer: const MyDrawer(),
+      drawer: const MyDrawer(userId: '',),
     );
   }
 

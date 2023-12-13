@@ -1,15 +1,15 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_print
 
-import 'package:app_servis/model/note.dart';
-import 'package:app_servis/navigasi/nav.dart';
+import '../../model/auth.dart';
+import '../../model/note.dart';
+import '../../navigasi/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatefulWidget {
-  const MyDrawer({super.key});
-
+  const MyDrawer({super.key, required this.userId});
+  final String userId;
   @override
   _MyDrawerState createState() => _MyDrawerState();
 }
@@ -17,8 +17,8 @@ class MyDrawer extends StatefulWidget {
 class _MyDrawerState extends State<MyDrawer> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
-  late String imageUrl;
+  final FirebaseService _firebaseService = FirebaseService();
+  late Future<String> _imageUrl;
 
   late User _user;
   late Map<String, dynamic> _userData;
@@ -27,17 +27,7 @@ class _MyDrawerState extends State<MyDrawer> {
   void initState() {
     super.initState();
     _getUserData();
-    imageUrl='';
-    getImageUrl();
-  }
-
-  Future<void>getImageUrl()async{
-    final ref = _storage.ref().child('gs://servis-6a153.appspot.com/user_images/D6Ae59AcidbpglM52PCLxeQouwy1.jpg');
-    final url = await ref.getDownloadURL();
-    setState(() {
-      imageUrl=url;
-    });
-
+    _imageUrl = _firebaseService.getUserProfileImageURL(widget.userId);
   }
 
   @override
@@ -54,9 +44,40 @@ class _MyDrawerState extends State<MyDrawer> {
             accountEmail: Text('${_user.email}'),
             currentAccountPicture: CircleAvatar(
               radius: 50,
-              child: Image(
-                image: NetworkImage(imageUrl),
-                fit: BoxFit.cover,
+              child: FutureBuilder<String>(
+                future: _imageUrl, // Assuming _imageUrl is a Future<String>
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      // Handle error
+                      print('Error loading image: ${snapshot.error}');
+                      return Text('Error loading image');
+                    }
+                    // Use the retrieved image URL
+                    return Image.network(
+                      snapshot.data!,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      (loadingProgress.expectedTotalBytes ?? 1)
+                                  : null,
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  } else {
+                    // While the Future is still resolving
+                    return CircularProgressIndicator();
+                  }
+                },
               ),
             ),
             arrowColor: light,
