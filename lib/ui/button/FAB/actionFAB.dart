@@ -1,8 +1,9 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class ActionButton extends StatelessWidget {
-  const ActionButton({Key? key, this.onPressed, required this.icon})
-      : super(key: key);
+  const ActionButton({super.key, this.onPressed, required this.icon});
 
   final VoidCallback? onPressed;
   final Icon icon;

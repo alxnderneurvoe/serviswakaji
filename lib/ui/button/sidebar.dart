@@ -52,7 +52,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     if (snapshot.hasError) {
                       // Handle error
                       print('Error loading image: ${snapshot.error}');
-                      return Text('Error loading image');
+                      return const Text('Error loading image');
                     }
                     // Use the retrieved image URL
                     return Image.network(
@@ -75,7 +75,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     );
                   } else {
                     // While the Future is still resolving
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                 },
               ),

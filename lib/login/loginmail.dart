@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, duplicate_ignore
+
 import '../model/auth.dart';
 import '../model/note.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -151,7 +153,6 @@ class _LoginPageState extends State<LoginPage> {
           duration: Duration(seconds: 4),
         ),
       );
-      // ignore: use_build_context_synchronously
       navigateToDepanPage(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

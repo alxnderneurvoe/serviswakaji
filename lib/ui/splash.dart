@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
       splashIconSize: 400,
       backgroundColor: Colors.white,
       duration: 10000,
-      animationDuration: Duration(seconds: 2),
+      animationDuration: const Duration(seconds: 2),
       nextScreen: PilihanPage(),
       splashTransition: SplashTransition.fadeTransition,
       pageTransitionType: PageTransitionType.fade,

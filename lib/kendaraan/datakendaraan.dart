@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class VehicleDetailPage extends StatelessWidget {
   final DocumentSnapshot vehicle;
 
-  VehicleDetailPage({super.key, required this.vehicle});
+  const VehicleDetailPage({super.key, required this.vehicle});
 
   @override
   Widget build(BuildContext context) {
