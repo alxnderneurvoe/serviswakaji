@@ -74,7 +74,9 @@ class _VehicleSelectionPageState extends State<VehicleSelectionPage> {
                             Text(vehicle['Plat']),
                           ],
                         ),
-                        onTap: () {navigateToVehicleDetailPage(context, vehicle);},
+                        onTap: () {
+                          navigateToVehicleDetailPage(context, vehicle);
+                        },
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -108,6 +110,7 @@ class _VehicleSelectionPageState extends State<VehicleSelectionPage> {
               style: TextStyle(color: darkbrown),
             ),
           ),
+          const SizedBox(height: 10)
         ],
       ),
       drawer: const MyDrawer(

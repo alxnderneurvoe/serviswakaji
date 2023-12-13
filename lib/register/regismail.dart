@@ -110,38 +110,74 @@ class _RegisPageState extends State<RegisPage> {
                   ),
                 ),
               ),
-              TextField(
+              TextFormField(
                 controller: emailController,
                 decoration: const InputDecoration(labelText: 'Email'),
                 onChanged: validateEmail,
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Harap mengisi Email';
+                  }
+                  return null;
+                },
               ),
-              TextField(
+              TextFormField(
                 controller: passwordController,
                 decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
                 onChanged: validatePassword,
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Harap mengisi Password';
+                  }
+                  return null;
+                },
               ),
-              TextField(
+              TextFormField(
                 controller: namaController,
                 decoration: const InputDecoration(labelText: 'Nama'),
                 onChanged: validateName,
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Harap mengisi Nama';
+                  }
+                  return null;
+                },
               ),
-              TextField(
+              TextFormField(
                 controller: nikController,
                 decoration: const InputDecoration(labelText: 'NIK'),
                 onChanged: validateNIK,
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Harap mengisi NIK';
+                  }
+                  return null;
+                },
               ),
-              TextField(
+              TextFormField(
                 controller: nohpController,
                 decoration: const InputDecoration(labelText: 'No Hp'),
                 onChanged: validateMobile,
                 maxLength: 13,
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Harap mengisi No Hp';
+                  }
+                  return null;
+                },
               ),
-              TextField(
+              TextFormField(
                 controller: alamatController,
                 decoration: const InputDecoration(labelText: 'Alamat'),
                 minLines: 1,
                 maxLines: 2,
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Harap mengisi Alamat';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
               ElevatedButton(
@@ -163,8 +199,12 @@ class _RegisPageState extends State<RegisPage> {
   Future<void> register() async {
     try {
       if (_selectedImage == null) {
-        // Display an error message or show a dialog indicating that the user must select a photo
-        print("Please select a photo");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please select a photo'),
+            duration: Duration(seconds: 4),
+          ),
+        );
         return;
       }
 

@@ -2,12 +2,12 @@
 
 import 'dart:js';
 
+import 'package:app_servis/model/toast.dart';
+
 import '../navigasi/nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-import '../model/toast.dart';
 
 class FirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -40,19 +40,7 @@ class FirebaseAuthService {
       UserCredential credential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       return credential.user;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
-        showToast(
-            message: 'Invalid email or password.',
-            backgroundColor: Colors.deepPurple,
-            textColor: [Colors.deepPurpleAccent]);
-      } else {
-        showToast(
-            message: 'An error occurred: ${e.code}',
-            backgroundColor: Colors.deepPurple,
-            textColor: [Colors.deepPurpleAccent]);
-      }
-    }
+    } on FirebaseAuthException {}
     return null;
   }
 
@@ -142,7 +130,7 @@ class FirebaseService {
       return imageUrl;
     } catch (e) {
       print('Error getting user profile image URL: $e');
-      return ''; 
+      return '';
     }
   }
 }

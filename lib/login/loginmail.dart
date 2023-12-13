@@ -73,6 +73,12 @@ class _LoginPageState extends State<LoginPage> {
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Harap mengisi Email ';
+                        }
+                        return null;
+                      },
                       decoration: const InputDecoration(
                         labelText: 'Email',
                       ),
@@ -81,6 +87,12 @@ class _LoginPageState extends State<LoginPage> {
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Harap mengisi Password';
+                        }
+                        return null;
+                      },
                       decoration: const InputDecoration(
                         labelText: 'Password',
                       ),
@@ -157,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Some error'),
+          content: Text('Invalid Email or Password'),
           duration: Duration(seconds: 4),
         ),
       );

@@ -99,9 +99,6 @@ class _BookingServicePageState extends State<BookingServicePage> {
                                 labelStyle: TextStyle(fontSize: 12),
                               ),
                               maxLength: 2,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.singleLineFormatter,
-                              ],
                               onChanged: _handleKodeDaerah,
                             ),
                           ),

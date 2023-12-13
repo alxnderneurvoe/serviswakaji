@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 import '../navigasi/nav.dart';
 import '../model/note.dart';
-import '../ui/button/sidebar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -96,9 +95,6 @@ class VehicleDetailPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      drawer: const MyDrawer(
-        userId: '',
       ),
     );
   }

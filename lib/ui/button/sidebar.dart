@@ -116,7 +116,7 @@ class _MyDrawerState extends State<MyDrawer> {
             title: const Text('Logout'),
             onTap: () {
               FirebaseAuth.instance.signOut();
-              Navigator.pushNamed(context, "/");
+              navigateToPilihanPage(context);
             },
           ),
         ],
