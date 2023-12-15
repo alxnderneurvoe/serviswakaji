@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_web_libraries_in_flutter, non_constant_identifier_names, avoid_print
+// ignore_for_file: avoid_web_libraries_in_flutter, non_constant_identifier_names, avoid_print, empty_catches
 
 import 'dart:js';
 

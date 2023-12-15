@@ -1,11 +1,14 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_print
 
+import 'package:flutter/cupertino.dart';
+
 import '../../model/auth.dart';
 import '../../model/note.dart';
 import '../../navigasi/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+// import 'package:cupertino_icons/cupertino_icons.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key, required this.userId});
@@ -108,6 +111,13 @@ class _MyDrawerState extends State<MyDrawer> {
             title: const Text('Kendaraan Anda'),
             onTap: () {
               navigateToPilihKendaraanPage(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(CupertinoIcons.cart),
+            title: const Text('Belanja'),
+            onTap: () {
+              navigateToShopPage(context);
             },
           ),
           const SizedBox(height: 100.0),

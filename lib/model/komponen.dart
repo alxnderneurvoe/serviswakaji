@@ -3,6 +3,50 @@ import 'package:google_fonts/google_fonts.dart';
 import './note.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
+
+class User {
+  String email;
+  String firstName;
+  String lastName;
+  String userID;
+  String netWorkImageURL = "";
+  String appIdentifier;
+
+  User(
+      {this.email = '',
+      this.firstName = '',
+      this.lastName = '',
+      this.userID = '',
+      this.netWorkImageURL = ''})
+      : appIdentifier =
+            'Flutter Login Screen ${kIsWeb ? 'Web' : Platform.operatingSystem}';
+
+  String fullName() => '$firstName $lastName';
+
+  factory User.fromJson(Map<String, dynamic> parsedJson) {
+    return User(
+        email: parsedJson['email'] ?? '',
+        firstName: parsedJson['firstName'] ?? '',
+        lastName: parsedJson['lastName'] ?? '',
+        userID: parsedJson['id'] ?? parsedJson['userID'] ?? '',
+        netWorkImageURL: parsedJson['netWorkImageURL'] ?? '');
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'email': email,
+      'firstName': firstName,
+      'lastName': lastName,
+      'id': userID,
+      'netWorkImageURL': netWorkImageURL,
+      'appIdentifier': appIdentifier
+    };
+  }
+}
+
 class CustomButton extends StatelessWidget {
   const CustomButton(
       {super.key,

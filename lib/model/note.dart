@@ -30,9 +30,7 @@ String? validateName(String? value) {
 String? validateMobile(String? value) {
   String pattern = r'(^\+?[0-9]*$)';
   RegExp regExp = RegExp(pattern);
-  if ((value?.length ?? 0) < 11 && (value?.length ?? 0) > 13) {
-    return "Nomor Hp minimal 10 angka dan maksimal 13 angka";
-  } else if (value?.isEmpty ?? true) {
+  if (value?.isEmpty ?? true) {
     return "Mobile phone number is required";
   } else if (!regExp.hasMatch(value ?? '')) {
     return "Mobile phone number must contain only digits";

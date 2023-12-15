@@ -108,7 +108,7 @@ class _ExpandableFabState extends State<ExpandableFab>
           onPressed: _toggle,
           backgroundColor: Colors.white,
           child: const Icon(
-            CupertinoIcons.bars,
+            Icons.more_vert,
             color: darkbrown,
             size: 35,
           ),

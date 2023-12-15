@@ -1,3 +1,5 @@
+import 'package:app_servis/shooping/berandashop.dart';
+
 import '../booking/howtobook.dart';
 import '../home/depan.dart';
 import '../kendaraan/datakendaraan.dart';
@@ -108,12 +110,13 @@ void navigateToHowToBook(BuildContext context) {
     MaterialPageRoute(builder: (context) => const HowToBook()),
   );
 }
-// void navigateToBookingDetailPage(BuildContext context) {
-//   Navigator.push(
-//     context,
-//     MaterialPageRoute(builder: (context) => BookingDetailPage()),
-//   );
-// }
+
+void navigateToShopPage(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const BerandaShopPage()),
+  );
+}
 
 void navigateToEditKendaraanPage(
     BuildContext context, DocumentSnapshot vehicle) {
