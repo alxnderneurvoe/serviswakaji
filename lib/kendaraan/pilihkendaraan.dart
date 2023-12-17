@@ -58,7 +58,7 @@ class _VehicleSelectionPageState extends State<VehicleSelectionPage> {
                           side: const BorderSide(color: Colors.black),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
-                        margin: const EdgeInsets.all(8.0),
+                        margin: const EdgeInsets.symmetric(vertical: 16, horizontal:  20),
                         child: ListTile(
                           title: Text(
                             vehicle['Jenis Kendaraan'],

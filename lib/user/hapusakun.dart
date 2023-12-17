@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:app_servis/model/note.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -44,14 +45,15 @@ Future<void> deleteAccount(BuildContext context) async {
   User? user = FirebaseAuth.instance.currentUser;
 
   if (user != null) {
+    String uid = user.uid;
     try {
       await user.delete();
       print('Account deleted successfully.');
-
+      await FirebaseFirestore.instance.collection('User').doc(uid).delete();
+      print('Firestore data deleted successfully.');
       Navigator.pushReplacementNamed(context, '/');
     } catch (e) {
       print('Error deleting account: $e');
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error deleting account: $e'),

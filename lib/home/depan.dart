@@ -39,6 +39,23 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             const SizedBox(height: 12),
+            Container(
+              decoration: BoxDecoration(
+                color: darkbrown,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              width: double.infinity,
+              height: 50,
+              child: const Text(
+                'BOOKING LIST',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
             StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('User')
@@ -62,35 +79,39 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(15.0),
                           ),
                           margin: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            title: Text(
-                              booking['a_Plat_kendaraan'],
-                              style: const TextStyle(fontSize: 20),
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(booking['b_Nama_pelanggan']),
-                                Text(booking['m_Keluhan']),
-                                Text(DateFormat('dd-MM-yyyy, HH:mm').format(
-                                    booking['d_Tanggal_booking'].toDate())),
-                              ],
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () {
-                                    showDeleteConfirmationDialog(
-                                        context, booking);
-                                  },
+                          child: Column(
+                            children: [
+                              ListTile(
+                                title: Text(
+                                  booking['a_Plat_kendaraan'],
+                                  style: const TextStyle(fontSize: 20),
                                 ),
-                              ],
-                            ),
-                            onTap: () {
-                              // navigateToBookingDetailPage(context);
-                            },
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(booking['b_Nama_pelanggan']),
+                                    Text(booking['m_Keluhan']),
+                                    Text(DateFormat('dd-MM-yyyy, HH:mm').format(
+                                        booking['d_Tanggal_booking'].toDate())),
+                                  ],
+                                ),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      onPressed: () {
+                                        showDeleteConfirmationDialog(
+                                            context, booking);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                onTap: () {
+                                  // navigateToBookingDetailPage(context);
+                                },
+                              ),
+                            ],
                           ),
                         );
                       },
