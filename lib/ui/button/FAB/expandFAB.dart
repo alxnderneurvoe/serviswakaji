@@ -1,7 +1,6 @@
 // ignore_for_file: file_names, library_private_types_in_public_api
 
 import '../../../model/note.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 

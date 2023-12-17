@@ -1,11 +1,18 @@
 // ignore_for_file: library_private_types_in_public_api, unnecessary_string_interpolations, avoid_print
 
+import '../home/depan.dart';
+import '../kendaraan/pilihkendaraan.dart';
 import '../model/note.dart';
 import '../navigasi/nav.dart';
-import '../ui/button/sidebar.dart';
+import '../shooping/berandashop.dart';
+import '../ui/button/FAB/expandFAB.dart';
+import '../ui/button/botbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../ui/button/floatingbutton.dart';
+import 'hapusakun.dart';
 
 class ProfilPage extends StatefulWidget {
   const ProfilPage({super.key});
@@ -17,6 +24,7 @@ class ProfilPage extends StatefulWidget {
 class _ProfilPageState extends State<ProfilPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  int _currentIndex = 3;
 
   late User _user;
   late Map<String, dynamic> _userData;
@@ -30,45 +38,49 @@ class _ProfilPageState extends State<ProfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profil Pengguna'),
-        titleTextStyle: const TextStyle(
-          color: Colors.white,
-          fontSize: 22,
-        ),
-        backgroundColor: darkbrown,
-      ),
+      backgroundColor: lightlite,
       body: Center(
         child: Column(
           children: [
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 100),
             CircleAvatar(
               radius: 60,
-              child: Image.network('${_userData['image']}'),
+              backgroundColor: Colors.grey,
+              // child: Image.network('${_userData['image']}'),
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 100,
+              ),
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             const Text(
               'Pelanggan',
-              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Text(
               '${_user.email}',
-              style: const TextStyle(fontSize: 18.0, color: Colors.grey),
+              style: const TextStyle(
+                fontSize: 18.0,
+                color: Colors.grey,
+              ),
             ),
-            const SizedBox(height: 50.0),
+            const SizedBox(height: 20.0),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   'DATA DIRI PELANGGAN',
                   style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
+                    fontSize: 18.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 15.0),
             DataTable(
               dataRowMinHeight: 40.0,
               columnSpacing: 10.0,
@@ -78,7 +90,11 @@ class _ProfilPageState extends State<ProfilPage> {
                       style: TextStyle(color: Color.fromARGB(0, 0, 0, 255))),
                 ),
                 DataColumn(label: Text('')),
-                DataColumn(label: Text('')),
+                DataColumn(
+                  label: Text(
+                      '.......................................................................................',
+                      style: TextStyle(color: Color.fromARGB(0, 0, 0, 255))),
+                ),
               ],
               rows: [
                 DataRow(cells: [
@@ -114,20 +130,68 @@ class _ProfilPageState extends State<ProfilPage> {
                 ]),
               ],
             ),
-            const SizedBox(height: 40.0),
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    navigateToUpdateUserPage(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(130, 40),
+                  ),
+                  child: const Text(
+                    'Edit Profil',
+                    style: TextStyle(
+                      color: darkbrown,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                    navigateToPilihanPage(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(130, 40),
+                  ),
+                  child: const Text(
+                    'Log Out',
+                    style: TextStyle(color: darkbrown),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
-                navigateToUpdateUserPage(context);
+                showDeleteConfirmationDialog(context);
               },
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(130, 40),
+              ),
               child: const Text(
-                'Edit Profil',
-                style: TextStyle(color: darkbrown),
+                'Hapus Akun',
+                style: TextStyle(color: reddelete),
               ),
             ),
           ],
         ),
       ),
-      drawer: const MyDrawer(userId: '',),
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: _currentIndex,
+        onTap: itemTapped,
+      ),
+      floatingActionButton: ExpandableFab(
+        distance: 100,
+        children: [
+          AboutUsWeb(),
+          ChatAdmin(),
+          const HowToBookButton(),
+        ],
+      ),
     );
   }
 
@@ -139,11 +203,42 @@ class _ProfilPageState extends State<ProfilPage> {
           await _firestore.collection('User').doc(_user.uid).get();
 
       setState(() {
-        _userData = userData.data() ??
-            {}; // Use null-aware operator to handle null case
+        _userData = userData.data() ?? {};
       });
     } catch (e) {
       print('Failed to get user data: $e');
+    }
+  }
+
+  void itemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      case 1:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const BerandaShopPage()),
+        );
+        break;
+      case 2:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const VehicleSelectionPage()),
+        );
+        break;
+      case 3:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProfilPage()),
+        );
+        break;
     }
   }
 }

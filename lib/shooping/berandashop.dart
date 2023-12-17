@@ -1,47 +1,33 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:app_servis/home/depan.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../kendaraan/pilihkendaraan.dart';
 import '../model/note.dart';
-import '../ui/button/sidebar.dart';
-import 'Widgets/PopularWidgets.dart';
+import '../ui/button/FAB/expandFAB.dart';
+import '../ui/button/botbar.dart';
+import '../ui/button/floatingbutton.dart';
+import '../user/profil.dart';
 import 'Widgets/CategoryWidgets.dart';
-import 'Widgets/NewestWidgets.dart';
 
-class BerandaShopPage extends StatelessWidget {
+class BerandaShopPage extends StatefulWidget {
   const BerandaShopPage({super.key});
+
+  @override
+  State<BerandaShopPage> createState() => _BerandaShopPageState();
+}
+
+class _BerandaShopPageState extends State<BerandaShopPage> {
+  int _currentIndex = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: lightlite,
-      appBar: AppBar(
-        title: Text(
-          'Dashboard',
-          style: GoogleFonts.hindVadodara(
-            textStyle: const TextStyle(
-              color: Colors.white,
-              fontSize: 25.0,
-            ),
-          ),
-        ),
-        backgroundColor: darkbrown,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(
-                CupertinoIcons.cart_fill,
-                color: Colors.black,
-              ),
-            ),
-          )
-        ],
-      ),
       body: ListView(
         children: [
+          SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 10,
@@ -66,12 +52,13 @@ class BerandaShopPage extends StatelessWidget {
                   horizontal: 10,
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Icon(
                       CupertinoIcons.search,
                       color: darkbrown,
                     ),
+                    SizedBox(width: 10),
                     SizedBox(
                       height: 50,
                       width: 385,
@@ -86,10 +73,6 @@ class BerandaShopPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.filter_list),
                     ),
                   ],
                 ),
@@ -117,7 +100,20 @@ class BerandaShopPage extends StatelessWidget {
               ),
             ),
           ),
-          const PopularWidget(),
+          // const PopularWidget(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Popular In Maintanance Progress',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+              Text(
+                '....................',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ],
+          ),
           const Padding(
             padding: EdgeInsets.only(top: 20, left: 10),
             child: Text(
@@ -128,12 +124,67 @@ class BerandaShopPage extends StatelessWidget {
               ),
             ),
           ),
-          const NewestWidget(),
+          // const NewestWidget(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Newest In Maintanance Progress',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+              Text(
+                '....................',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ],
+          ),
         ],
       ),
-      drawer: const MyDrawer(
-        userId: '',
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: _currentIndex,
+        onTap: itemTapped,
+      ),
+      floatingActionButton: ExpandableFab(
+        distance: 100,
+        children: [
+          AboutUsWeb(),
+          ChatAdmin(),
+          const HowToBookButton(),
+        ],
       ),
     );
+  }
+
+  void itemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+        break;
+      case 1:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BerandaShopPage()),
+        );
+        break;
+      case 2:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => VehicleSelectionPage()),
+        );
+        break;
+      case 3:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ProfilPage()),
+        );
+        break;
+    }
   }
 }

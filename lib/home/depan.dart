@@ -1,20 +1,21 @@
 // ignore_for_file: use_key_in_widget_constructors, must_be_immutable, avoid_print
 
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:app_servis/ui/button/botbar.dart';
 import '../booking/authbooking.dart';
-// import '../booking/howtobook.dart';
+import '../kendaraan/pilihkendaraan.dart';
 import '../model/note.dart';
 import '../navigasi/nav.dart';
+import '../shooping/berandashop.dart';
 import '../ui/button/FAB/expandFAB.dart';
-import '../ui/button/howbar.dart';
-// import '../ui/button/howbar.dart';
+import '../ui/button/floatingbutton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../ui/button/sidebar.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+
+import '../user/profil.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -22,6 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   late User _user;
@@ -32,18 +34,6 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: lightlite,
-      appBar: AppBar(
-        title: Text(
-          'Dashboard',
-          style: GoogleFonts.hindVadodara(
-            textStyle: const TextStyle(
-              color: Colors.white,
-              fontSize: 25.0,
-            ),
-          ),
-        ),
-        backgroundColor: darkbrown,
-      ),
       body: Padding(
         padding: const EdgeInsets.only(right: 25, left: 25),
         child: Column(
@@ -111,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 100),
                         const Text(
                           'Selamat Datang di Aplikasi Bengkel Servis',
                           style: TextStyle(
@@ -156,11 +146,12 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      drawer: const MyDrawer(
-        userId: '',
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: _currentIndex,
+        onTap: itemTapped,
       ),
       floatingActionButton: ExpandableFab(
-        distance: 120,
+        distance: 100,
         children: [
           AboutUsWeb(),
           ChatAdmin(),
@@ -168,5 +159,37 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  void itemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      case 1:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const BerandaShopPage()),
+        );
+        break;
+      case 2:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const VehicleSelectionPage()),
+        );
+        break;
+      case 3:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProfilPage()),
+        );
+        break;
+    }
   }
 }
