@@ -21,3 +21,6 @@ const facebookButtonColor = 0xFF415893;
 const facebookAppID = '285315185217069';
 const usersCollection = 'User';
 const eula = 'https://alxnderneurvoe.carrd.co/';
+
+‪+62 831‑9154‑1865‬ qila
+‪+62 821‑6247‑3830‬ asya
